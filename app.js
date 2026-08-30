@@ -23,7 +23,7 @@ app.post("/tasks", (req, res) => {
 });
 
 app.put("/tasks/:id", (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = Number.parseInt(req.params.id);
     const tarea = tareas.find(t => t.id === id);
 
     if (!tarea) {
@@ -37,7 +37,7 @@ app.put("/tasks/:id", (req, res) => {
 });
 
 app.delete("/tasks/:id", (req, res) => {
-    const id = parseInt(req.params.id);
+    const id = Number.parseInt(req.params.id);
     const indice = tareas.findIndex(t => t.id === id);
 
     if (indice === -1) {
