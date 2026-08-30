@@ -17,7 +17,9 @@ RUN apk upgrade --no-cache \
 
 WORKDIR /app
 
-COPY --from=build /app /app
+COPY --from=build --chown=node:node /app /app
+
+USER node
 
 EXPOSE 3000
 
