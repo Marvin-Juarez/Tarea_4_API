@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:24-alpine3.24 AS build
 
 WORKDIR /app
 
@@ -8,6 +8,17 @@ RUN npm ci --omit=dev --ignore-scripts
 
 COPY app.js .
 
+FROM node:24-alpine3.24
+
+RUN apk upgrade --no-cache \
+    && rm -rf /usr/local/lib/node_modules/npm \
+    /usr/local/lib/node_modules/corepack \
+    /opt/yarn-v1.22.22
+
+WORKDIR /app
+
+COPY --from=build /app /app
+
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["node", "app.js"]
