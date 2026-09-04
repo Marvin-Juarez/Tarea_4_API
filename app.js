@@ -12,7 +12,24 @@ app.get("/tasks", (req, res) => {
     res.json(tareas);
 });
 
+app.get("/tasks/:id", (req, res) => {
+    const id = Number.parseInt(req.params.id);
+    const tarea = tareas.find(t => t.id === id);
+
+    if (!tarea) {
+        return res.status(404).json({ mensaje: "Tarea no encontrada" });
+    }
+
+    res.json(tarea);
+});
+
 app.post("/tasks", (req, res) => {
+    if (!req.body.titulo || req.body.titulo.trim() === "") {
+        return res.status(400).json({
+            mensaje: "El titulo es obligatorio"
+        });
+    }
+
     const nuevaTarea = {
         id: tareas.length + 1,
         titulo: req.body.titulo,
